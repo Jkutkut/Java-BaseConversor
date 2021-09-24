@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Converter {
 
     public static final int BINARY = 2;
@@ -12,26 +14,110 @@ public class Converter {
      * @param baseTo - Desired base.
      * @return The equivalent number on the given base.
      */
-    static String converter(String number, int baseFrom, int baseTo) {
+    public static String converter(String number, int baseFrom, int baseTo) {
+        System.out.printf("\nConverter:\n- Converting %s from base %d to base %d\n\n", number, baseFrom, baseTo);
+        
         if (baseFrom == baseTo) { // If same base.
             System.out.println("Same base!");
             return number;
         }
 
         if (baseFrom == Converter.DECIMAL) {
-            return Converter.decimal2base(number, baseTo);
+            int decimalNumber = Integer.parseInt(number);
+            return Converter.decimal2base(decimalNumber, baseTo);
         }
         return "";
     }
 
+    private static String decimal2base(int number, int baseTo) {
+        ArrayList<String[]> steps = new ArrayList<String[]>();
+        String solution = "";
+        int nDigitsDivisor = Converter.lengthNumber(baseTo);
+
+        while (number > baseTo - 1) {
+            int quotient = (int) number / baseTo;
+            int remainder = number % baseTo;
+
+            // Get number of digits of Divisor and remainder
+            int nDigitsNumber = Converter.lengthNumber(number);
+            int nDigitsQuotient = Converter.lengthNumber(quotient);
+            int nDigitsRemainder = Converter.lengthNumber(remainder);
+            
+            // Make step
+            String[] s = {"", "", ""};
+            
+            // Start line
+            s[0] = String.format("%d │%d", number, baseTo);
+            for (int i = 0; i < nDigitsQuotient - nDigitsDivisor + 1; i++) {
+                s[0] += " ";
+            }
+
+            // Middle line
+            for (int i = 0; i < nDigitsNumber; i++) {
+                s[1] += " ";
+            }
+            s[1] += " └";
+            for (int i = 0; i < Math.max(nDigitsDivisor, nDigitsQuotient) + 1; i++) {
+                s[1] += "─";
+            }
+
+            // last line
+            for (int i = 0; i < nDigitsNumber - nDigitsRemainder; i++) {
+                s[2] += " ";
+            }
+            s[2] += String.format("%d  %d ", remainder, quotient);
+            
+            steps.add(s);
+
+            number = quotient;
+            solution += remainder;
+        }
+
+        String[] divider = {
+            "      ",
+            "  =>  ",
+            "      "
+        };
+        for (int k = 0; k < steps.size(); k+=5) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3 && j + k < steps.size(); j++) {
+                    System.out.print(steps.get(k + j)[i]);
+                    System.out.print(divider[i]);
+                }
+                System.out.println();
+            }
+            System.out.println("\n");
+        }
+        
+        
+
+        return solution;
+    }
+
+    /**
+     * @param n - Number to use.
+     * @return The number of digits of the number (3 -> 1; 123 -> 3; -234324 -> 7)
+     */
+    private static int lengthNumber(int n) {
+        int extra = 0;
+        if (n == 0) {
+            return 1;
+        }
+        if (n < 0) {
+            extra = 1;
+            n *= -1;
+        }
+
+        return (int) (Math.log10(n) + 1) + extra;
+    }
+
+
     public static void main(String[] args) {
 
-        String numero = "8";
+        String numero = "1234";
 
         int baseFrom = Converter.DECIMAL;
-        int baseTo = Converter.DECIMAL;
-
-        System.out.println("\nConverter:");
+        int baseTo = Converter.BINARY;
 
         String output = converter(numero, baseFrom, baseTo);
 
