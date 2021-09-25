@@ -53,7 +53,7 @@ public class Converter {
             int nDigitsQuotient = Converter.lengthNumber(quotient);
             int nDigitsRemainder = Converter.lengthNumber(remainder);
             
-            // Make step
+            // Make step (3 lines)
             String[] s = {"", "", ""};
             
             // Start line
@@ -141,15 +141,15 @@ public class Converter {
 
         String numero = "15";
 
-        int baseFrom = Converter.DECIMAL;
-        int baseTo = Converter.HEXADECIMAL;
+        int from = Converter.DECIMAL;
+        int to = Converter.HEXADECIMAL;
 
         try {
-            String output = converter(numero, baseFrom, baseTo);    
-            System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, baseFrom, output, baseTo);
+            String output = converter(numero, from, to);    
+            System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, from, output, to);
         }
         catch (Exception e) {
-            System.out.printf("Not able to convert '%s' in base %d to base %d.\n", numero, baseFrom, baseTo);
+            System.out.printf("Not able to convert '%s' in base %d to base %d.\n", numero, from, to);
             System.out.println(e);
         }
     }
