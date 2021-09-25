@@ -13,8 +13,9 @@ public class Converter {
      * @param baseFrom - Base of the number.
      * @param baseTo - Desired base.
      * @return The equivalent number on the given base.
+     * @throws Exception
      */
-    public static String converter(String number, int baseFrom, int baseTo) {
+    public static String converter(String number, int baseFrom, int baseTo) throws Exception {
         System.out.printf("\nConverter:\n- Converting %s from base %d to base %d:\n\n", number, baseFrom, baseTo);
         
         if (baseFrom == baseTo) { // If same base.
@@ -79,9 +80,9 @@ public class Converter {
             steps.add(s);
 
             number = quotient;
-            solution = remainder + solution;
+            solution = Converter.symbolEquivalent(remainder) + solution;
         }
-        solution = number + solution; // Add the final number
+        solution = Converter.symbolEquivalent(number) + solution; // Add the final number
 
 
         String[] divider = {
@@ -138,14 +139,18 @@ public class Converter {
 
     public static void main(String[] args) {
 
-        String numero = "8";
+        String numero = "15";
 
         int baseFrom = Converter.DECIMAL;
-        int baseTo = Converter.BINARY;
+        int baseTo = Converter.HEXADECIMAL;
 
-        String output = converter(numero, baseFrom, baseTo);
-
-
-        System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, baseFrom, output, baseTo);
+        try {
+            String output = converter(numero, baseFrom, baseTo);    
+            System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, baseFrom, output, baseTo);
+        }
+        catch (Exception e) {
+            System.out.printf("Not able to convert '%s' in base %d to base %d.\n", numero, baseFrom, baseTo);
+            System.out.println(e);
+        }
     }
 }
