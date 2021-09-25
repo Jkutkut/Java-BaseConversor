@@ -2,8 +2,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import Converter.*;
-
 public class ConverterTest {    
     @Before
     public void setUp() {
