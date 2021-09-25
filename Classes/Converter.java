@@ -15,7 +15,7 @@ public class Converter {
      * @return The equivalent number on the given base.
      */
     public static String converter(String number, int baseFrom, int baseTo) {
-        System.out.printf("\nConverter:\n- Converting %s from base %d to base %d\n\n", number, baseFrom, baseTo);
+        System.out.printf("\nConverter:\n- Converting %s from base %d to base %d:\n\n", number, baseFrom, baseTo);
         
         if (baseFrom == baseTo) { // If same base.
             System.out.println("Same base!");
@@ -30,11 +30,13 @@ public class Converter {
     }
 
     private static String decimal2base(int number, int baseTo) {
+        final int STEPS_PER_LINE = 5;
         ArrayList<String[]> steps = new ArrayList<String[]>();
+        
         String solution = "";
         int nDigitsDivisor = Converter.lengthNumber(baseTo);
 
-        while (number > baseTo - 1) {
+        while (number >= baseTo) {
             int quotient = (int) number / baseTo;
             int remainder = number % baseTo;
 
@@ -70,17 +72,20 @@ public class Converter {
             steps.add(s);
 
             number = quotient;
-            solution += remainder;
+            solution = remainder + solution;
         }
+        solution = number + solution; // Add the final number
+
 
         String[] divider = {
             "      ",
             "  =>  ",
             "      "
         };
-        for (int k = 0; k < steps.size(); k+=5) {
+
+        for (int k = 0; k < steps.size(); k += STEPS_PER_LINE) {
             for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3 && j + k < steps.size(); j++) {
+                for (int j = 0; j < STEPS_PER_LINE && j + k < steps.size(); j++) {
                     System.out.print(steps.get(k + j)[i]);
                     System.out.print(divider[i]);
                 }
@@ -89,6 +94,9 @@ public class Converter {
             System.out.println("\n");
         }
         
+
+        // Add the final Message
+        System.out.println(" Done\n\n");
         
 
         return solution;
@@ -114,7 +122,7 @@ public class Converter {
 
     public static void main(String[] args) {
 
-        String numero = "1234";
+        String numero = "8";
 
         int baseFrom = Converter.DECIMAL;
         int baseTo = Converter.BINARY;
@@ -122,6 +130,6 @@ public class Converter {
         String output = converter(numero, baseFrom, baseTo);
 
 
-        System.out.printf("The number %s in base %d is %s in base %d.\n\n", numero, baseFrom, output, baseTo);
+        System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, baseFrom, output, baseTo);
     }
 }
