@@ -119,6 +119,15 @@ public class Converter {
         return (int) (Math.log10(n) + 1) + extra;
     }
 
+    private static String symbolEquivalent(int number) throws Exception {
+        if (number < 0) {
+            throw new Exception("The number can not be less than 0");
+        }
+        if (number < 10) {
+            return String.valueOf(number);
+        }
+        return String.valueOf((char) (65 + number - 10));
+    }
 
     public static void main(String[] args) {
 
