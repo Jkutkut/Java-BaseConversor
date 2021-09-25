@@ -29,7 +29,14 @@ public class Converter {
         return "";
     }
 
-    private static String decimal2base(int number, int baseTo) {
+    /**
+     * Converter from decimal to any base
+     * @param number - Desired number (Decimal)
+     * @param baseTo - Desired base
+     * @return String with the look of number on the desired base.
+     * @throws Exception
+     */
+    private static String decimal2base(int number, int baseTo) throws Exception {
         final int STEPS_PER_LINE = 5;
         ArrayList<String[]> steps = new ArrayList<String[]>();
         
