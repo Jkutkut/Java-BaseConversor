@@ -27,11 +27,16 @@ public class Converter {
             int decimalNumber = Integer.parseInt(number);
             return Converter.decimal2base(decimalNumber, baseTo);
         }
+
+        if (baseTo == Converter.DECIMAL) {
+            return Converter.base2decimal(number, baseFrom);
+        }
+        
         return "";
     }
 
     /**
-     * Converter from decimal to any base
+     * Converter from decimal to any base.
      * @param number - Desired number (Decimal)
      * @param baseTo - Desired base
      * @return String with the look of number on the desired base.
@@ -110,18 +115,33 @@ public class Converter {
         return solution;
     }
 
+    /**
+     * Converter from any base to decimal.
+     * @param number
+     * @param baseFrom
+     * @return
+     * @throws Exception
+     */
     private static String base2decimal(String number, int baseFrom) throws Exception {
         int solution = 0;
         String[] calc = new String[number.length()];
+        String[] simply = new String[number.length()];
 
         for (int i = number.length() - 1, j = 0; i >= 0; i--, j++) {
-            int value = Converter.numberEquivalent(String.valueOf(number.charAt(i)));
+            String current = String.valueOf(number.charAt(i));
+            int value = Converter.numberEquivalent(current);
             
-            calc[i] = String.format("%d * %d^(%d)", value, baseFrom, j);
+            calc[i] = String.format("%s * %d^(%d)", current, baseFrom, j);
+            simply[i] = String.format("%d * %d^(%d)", value, baseFrom, j);
             solution += (int) (value * Math.pow(baseFrom, j));
         }
 
-        System.out.println(String.join(" + ", calc));
+        System.out.print(String.join(" + ", calc));
+        System.out.print(" = ");
+        System.out.print(String.join(" + ", simply));
+        System.out.print(" = ");
+        System.out.println(solution);
+
         return String.valueOf(solution);
     }
 
@@ -154,12 +174,32 @@ public class Converter {
         return String.valueOf((char) (65 + number - 10));
     }
 
+    private static int numberEquivalent(String number) throws Exception {
+        if (number.length() > 1) { // If more than one character given
+            throw new Exception("The input must be a single number");
+        }
+
+        int code = number.codePointAt(0); // ASCII code of the character
+
+        if (code >= 65 && code <= 90) { // If upper case character
+            return (code - 65) + 10;
+        }
+        else if (code >= 48 && code <= 57) {
+            return code - 48;
+        }
+        
+        // int n = Integer.parseInt(number);
+        System.out.println(code);
+
+        // return n;
+        return 0;
+    }
     public static void main(String[] args) {
 
-        String numero = "15";
+        String numero = "1F";
 
-        int from = Converter.DECIMAL;
-        int to = Converter.HEXADECIMAL;
+        int from = Converter.HEXADECIMAL;
+        int to = Converter.DECIMAL;
 
         try {
             String output = converter(numero, from, to);    
