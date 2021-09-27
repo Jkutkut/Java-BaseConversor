@@ -43,7 +43,7 @@ public class Converter {
 
         if (baseTo == Converter.BINARY) {
             if (Converter.isPowerOfM(baseFrom, 2)) {
-                // return Converter.powerTwoBase2binary(number, baseFrom);
+                return Converter.powerTwoBase2binary(number, baseFrom, false);
             }
 
             throw Converter.notImplementedException;
@@ -202,6 +202,32 @@ public class Converter {
         return solution;
     }
     
+    private static String powerTwoBase2binary(String number, int baseFrom, boolean log) throws Exception {
+        String solution = "";
+        int groupSize = (int) (Math.log(baseFrom) / Math.log(2));
+        
+        for (int i = 0; i < number.length(); i++) {
+            String c = String.valueOf(number.charAt(i));
+
+            String symbols = Converter.decimal2base(
+                Integer.parseInt(Converter.base2decimal(
+                    c,
+                    baseFrom,
+                    false
+                )),
+                2,
+                false
+            );
+
+            while (symbols.length() < groupSize) {
+                symbols = "0" + symbols;
+            }
+
+            System.out.println(c + " -> " + symbols);
+
+        }
+        return solution;
+    }
     // Help methods
 
     /**
@@ -267,10 +293,15 @@ public class Converter {
     }
     public static void main(String[] args) {
 
-        String numero = "01000100001";
+        // String numero = "01000100001";
 
-        int from = Converter.BINARY;
-        int to = Converter.HEXADECIMAL;
+        // int from = Converter.BINARY;
+        // int to = Converter.HEXADECIMAL;
+
+        String numero = "23AF6";
+
+        int from = Converter.HEXADECIMAL;
+        int to = Converter.BINARY;
 
         try {
             String output = converter(numero, from, to);    
