@@ -194,6 +194,20 @@ public class Converter {
         // return n;
         return 0;
     }
+
+    /**
+     * Checks if the given number is a power of m
+     * @param n - Number to check.
+     * @param m - Number to check power of.
+     * @return Whenever n is power of m
+     * 
+     * @see n=8, m=2 => true;
+     * @see n=7, m=2 => false;
+     */
+    static boolean isPowerOfM(int n, int m) {
+        return (int)(Math.ceil((Math.log(n) / Math.log(m))))
+            == (int)(Math.floor(((Math.log(n) / Math.log(m)))));
+    }
     public static void main(String[] args) {
 
         String numero = "10";
