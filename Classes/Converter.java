@@ -31,7 +31,7 @@ public class Converter {
         if (baseTo == Converter.DECIMAL) {
             return Converter.base2decimal(number, baseFrom);
         }
-        
+
         return "";
     }
 
@@ -117,9 +117,9 @@ public class Converter {
 
     /**
      * Converter from any base to decimal.
-     * @param number
-     * @param baseFrom
-     * @return
+     * @param number - Desired number (In any base).
+     * @param baseFrom  - Given base.
+     * @return String with the look of the number in decimal.
      * @throws Exception
      */
     private static String base2decimal(String number, int baseFrom) throws Exception {
@@ -196,10 +196,10 @@ public class Converter {
     }
     public static void main(String[] args) {
 
-        String numero = "1F";
+        String numero = "10";
 
-        int from = Converter.HEXADECIMAL;
-        int to = Converter.DECIMAL;
+        int from = Converter.BINARY;
+        int to = Converter.HEXADECIMAL;
 
         try {
             String output = converter(numero, from, to);    
