@@ -110,6 +110,23 @@ public class Converter {
         return solution;
     }
 
+    private static String base2decimal(String number, int baseFrom) throws Exception {
+        int solution = 0;
+        String[] calc = new String[number.length()];
+
+        for (int i = number.length() - 1, j = 0; i >= 0; i--, j++) {
+            int value = Converter.numberEquivalent(String.valueOf(number.charAt(i)));
+            
+            calc[i] = String.format("%d * %d^(%d)", value, baseFrom, j);
+            solution += (int) (value * Math.pow(baseFrom, j));
+        }
+
+        System.out.println(String.join(" + ", calc));
+        return String.valueOf(solution);
+    }
+
+    // Help methods
+
     /**
      * @param n - Number to use.
      * @return The number of digits of the number (3 -> 1; 123 -> 3; -234324 -> 7)
