@@ -27,16 +27,16 @@ public class Converter {
 
         if (baseFrom == Converter.DECIMAL) {
             int decimalNumber = Integer.parseInt(number);
-            return Converter.decimal2base(decimalNumber, baseTo);
+            return Converter.decimal2base(decimalNumber, baseTo, true);
         }
 
         if (baseTo == Converter.DECIMAL) {
-            return Converter.base2decimal(number, baseFrom);
+            return Converter.base2decimal(number, baseFrom, true);
         }
 
         if (baseFrom == Converter.BINARY) {
             if (Converter.isPowerOfM(baseTo, 2)) {
-                // return Converter.binary2powerTwoBase(number, baseTo);
+                return Converter.binary2powerTwoBase(number, baseTo, true);
             }
             throw Converter.notImplementedException;
         }
@@ -56,10 +56,11 @@ public class Converter {
      * Converter from decimal to any base.
      * @param number - Desired number (Decimal)
      * @param baseTo - Desired base
+     * @param log - If we want to see log
      * @return String with the look of number on the desired base.
      * @throws Exception
      */
-    private static String decimal2base(int number, int baseTo) throws Exception {
+    private static String decimal2base(int number, int baseTo, boolean log) throws Exception {
         final int STEPS_PER_LINE = 5;
         ArrayList<String[]> steps = new ArrayList<String[]>();
         
@@ -70,64 +71,66 @@ public class Converter {
             int quotient = (int) number / baseTo;
             int remainder = number % baseTo;
 
-            // Get number of digits of Divisor and remainder
-            int nDigitsNumber = Converter.lengthNumber(number);
-            int nDigitsQuotient = Converter.lengthNumber(quotient);
-            int nDigitsRemainder = Converter.lengthNumber(remainder);
-            
-            // Make step (3 lines)
-            String[] s = {"", "", ""};
-            
-            // Start line
-            s[0] = String.format("%d │%d", number, baseTo);
-            for (int i = 0; i < nDigitsQuotient - nDigitsDivisor + 1; i++) {
-                s[0] += " ";
-            }
+            if (log) {
+                // Get number of digits of Divisor and remainder
+                int nDigitsNumber = Converter.lengthNumber(number);
+                int nDigitsQuotient = Converter.lengthNumber(quotient);
+                int nDigitsRemainder = Converter.lengthNumber(remainder);
+                
+                // Make step (3 lines)
+                String[] s = {"", "", ""};
+                
+                // Start line
+                s[0] = String.format("%d │%d", number, baseTo);
+                for (int i = 0; i < nDigitsQuotient - nDigitsDivisor + 1; i++) {
+                    s[0] += " ";
+                }
 
-            // Middle line
-            for (int i = 0; i < nDigitsNumber; i++) {
-                s[1] += " ";
-            }
-            s[1] += " └";
-            for (int i = 0; i < Math.max(nDigitsDivisor, nDigitsQuotient) + 1; i++) {
-                s[1] += "─";
-            }
+                // Middle line
+                for (int i = 0; i < nDigitsNumber; i++) {
+                    s[1] += " ";
+                }
+                s[1] += " └";
+                for (int i = 0; i < Math.max(nDigitsDivisor, nDigitsQuotient) + 1; i++) {
+                    s[1] += "─";
+                }
 
-            // last line
-            for (int i = 0; i < nDigitsNumber - nDigitsRemainder; i++) {
-                s[2] += " ";
+                // last line
+                for (int i = 0; i < nDigitsNumber - nDigitsRemainder; i++) {
+                    s[2] += " ";
+                }
+                s[2] += String.format("%d  %d ", remainder, quotient);
+                
+                steps.add(s);
             }
-            s[2] += String.format("%d  %d ", remainder, quotient);
-            
-            steps.add(s);
 
             number = quotient;
             solution = Converter.symbolEquivalent(remainder) + solution;
         }
         solution = Converter.symbolEquivalent(number) + solution; // Add the final number
 
+        if (log) {
+            String[] divider = {
+                "      ",
+                "  =>  ",
+                "      "
+            };
 
-        String[] divider = {
-            "      ",
-            "  =>  ",
-            "      "
-        };
-
-        for (int k = 0; k < steps.size(); k += STEPS_PER_LINE) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < STEPS_PER_LINE && j + k < steps.size(); j++) {
-                    System.out.print(steps.get(k + j)[i]);
-                    System.out.print(divider[i]);
+            for (int k = 0; k < steps.size(); k += STEPS_PER_LINE) {
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < STEPS_PER_LINE && j + k < steps.size(); j++) {
+                        System.out.print(steps.get(k + j)[i]);
+                        System.out.print(divider[i]);
+                    }
+                    System.out.println();
                 }
-                System.out.println();
+                System.out.println("\n");
             }
-            System.out.println("\n");
-        }
-        
+            
 
-        // Add the final Message
-        System.out.println(" Done\n\n");
-        
+            // Add the final Message
+            System.out.println(" Done\n\n");
+        }
 
         return solution;
     }
@@ -139,7 +142,7 @@ public class Converter {
      * @return String with the look of the number in decimal.
      * @throws Exception
      */
-    private static String base2decimal(String number, int baseFrom) throws Exception {
+    private static String base2decimal(String number, int baseFrom, boolean log) throws Exception {
         int solution = 0;
         String[] calc = new String[number.length()];
         String[] simply = new String[number.length()];
@@ -148,20 +151,57 @@ public class Converter {
             String current = String.valueOf(number.charAt(i));
             int value = Converter.numberEquivalent(current);
             
-            calc[i] = String.format("%s * %d^(%d)", current, baseFrom, j);
-            simply[i] = String.format("%d * %d^(%d)", value, baseFrom, j);
+            if (log) {
+                calc[i] = String.format("%s * %d^(%d)", current, baseFrom, j);
+                simply[i] = String.format("%d * %d^(%d)", value, baseFrom, j);
+            }
             solution += (int) (value * Math.pow(baseFrom, j));
         }
 
-        System.out.print(String.join(" + ", calc));
-        System.out.print(" = ");
-        System.out.print(String.join(" + ", simply));
-        System.out.print(" = ");
-        System.out.println(solution);
+        if (log) {
+            System.out.print(String.join(" + ", calc));
+            System.out.print(" = ");
+            System.out.print(String.join(" + ", simply));
+            System.out.print(" = ");
+            System.out.println(solution);
+        }
 
         return String.valueOf(solution);
     }
 
+
+    private static String binary2powerTwoBase(String number, int baseTo, boolean log) throws Exception {
+        String solution = "";
+        int groupSize = (int) (Math.log(baseTo) / Math.log(2));
+
+        for (int i = number.length(); i >= 1; i-= groupSize) {
+            int start = i - 4;
+            if (start < 0) {
+                start = 0;
+            }
+
+            String piece = number.substring(start, i);
+
+            String symbol = Converter.decimal2base(
+                Integer.parseInt(Converter.base2decimal(
+                        piece,
+                        Converter.BINARY,
+                        false
+                )),
+                baseTo,
+                false
+            );
+
+            if (log) {
+                System.out.println(piece + " -> " + symbol);
+            }
+
+            solution = solution + symbol;
+        }
+
+        return solution;
+    }
+    
     // Help methods
 
     /**
@@ -227,7 +267,7 @@ public class Converter {
     }
     public static void main(String[] args) {
 
-        String numero = "101000100001";
+        String numero = "01000100001";
 
         int from = Converter.BINARY;
         int to = Converter.HEXADECIMAL;
