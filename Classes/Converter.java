@@ -7,6 +7,8 @@ public class Converter {
     public static final int DECIMAL = 10;
     public static final int HEXADECIMAL = 16;
 
+    private static Exception notImplementedException = new Exception("Not implemented yet :S");
+
     /**
      * Number converter.
      * @param number - String with the number in any base.
@@ -32,7 +34,22 @@ public class Converter {
             return Converter.base2decimal(number, baseFrom);
         }
 
-        return "";
+        if (baseFrom == Converter.BINARY) {
+            if (Converter.isPowerOfM(baseTo, 2)) {
+                // return Converter.binary2powerTwoBase(number, baseTo);
+            }
+            throw Converter.notImplementedException;
+        }
+
+        if (baseTo == Converter.BINARY) {
+            if (Converter.isPowerOfM(baseFrom, 2)) {
+                // return Converter.powerTwoBase2binary(number, baseFrom);
+            }
+
+            throw Converter.notImplementedException;
+        }
+
+        throw Converter.notImplementedException;
     }
 
     /**
@@ -210,7 +227,7 @@ public class Converter {
     }
     public static void main(String[] args) {
 
-        String numero = "10";
+        String numero = "101000100001";
 
         int from = Converter.BINARY;
         int to = Converter.HEXADECIMAL;
