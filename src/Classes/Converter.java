@@ -14,42 +14,47 @@ public class Converter {
      * @param number - String with the number in any base.
      * @param baseFrom - Base of the number.
      * @param baseTo - Desired base.
+     * @param log - If we want logs
      * @return The equivalent number on the given base.
      * @throws Exception
      */
-    public static String converter(String number, int baseFrom, int baseTo) throws Exception {
+    public static String converter(String number, int baseFrom, int baseTo, boolean log) throws Exception {
         System.out.printf("\nConverter:\n- Converting %s from base %d to base %d:\n\n", number, baseFrom, baseTo);
         
         if (baseFrom == baseTo) { // If same base.
-            System.out.println("Same base!");
+        	if (log) {
+        		System.out.println("Same base!");
+        	}
             return number;
         }
 
         if (baseFrom == Converter.DECIMAL) {
             int decimalNumber = Integer.parseInt(number);
-            return Converter.decimal2base(decimalNumber, baseTo, true);
+            return Converter.decimal2base(decimalNumber, baseTo, log);
         }
 
         if (baseTo == Converter.DECIMAL) {
-            return Converter.base2decimal(number, baseFrom, true);
+            return Converter.base2decimal(number, baseFrom, log);
         }
 
         if (baseFrom == Converter.BINARY && Converter.isPowerOfM(baseTo, 2)) {
-                return Converter.binary2powerTwoBase(number, baseTo, true);
+                return Converter.binary2powerTwoBase(number, baseTo, log);
         }
 
         if (baseTo == Converter.BINARY && Converter.isPowerOfM(baseFrom, 2)) {
-            return Converter.powerTwoBase2binary(number, baseFrom, true);
+            return Converter.powerTwoBase2binary(number, baseFrom, log);
         }
-
-        System.out.printf("No fast method found. Using conversion base%d -> Decimal, Decimal -> base%d\n\n", baseFrom, baseTo);
+        
+        if (log) {
+        	System.out.printf("No fast method found. Using conversion base%d -> Decimal, Decimal -> base%d\n\n", baseFrom, baseTo);
+        }
         return Converter.decimal2base(
             Integer.parseInt(Converter.base2decimal(
                 number,
                 baseFrom,
                 true)),
             baseTo,
-            true
+            log
         );
     }
 
@@ -326,7 +331,7 @@ public class Converter {
         int to = Converter.HEXADECIMAL;
 
         try {
-            String output = converter(numero, from, to);    
+            String output = converter(numero, from, to, true);    
             System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, from, output, to);
         }
         catch (Exception e) {
