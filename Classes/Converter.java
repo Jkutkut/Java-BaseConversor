@@ -7,8 +7,6 @@ public class Converter {
     public static final int DECIMAL = 10;
     public static final int HEXADECIMAL = 16;
 
-    private static Exception notImplementedException = new Exception("Not implemented yet :S");
-
     /**
      * Number converter.
      * @param number - String with the number in any base.
@@ -34,22 +32,13 @@ public class Converter {
             return Converter.base2decimal(number, baseFrom, true);
         }
 
-        if (baseFrom == Converter.BINARY) {
-            if (Converter.isPowerOfM(baseTo, 2)) {
+        if (baseFrom == Converter.BINARY && Converter.isPowerOfM(baseTo, 2)) {
                 return Converter.binary2powerTwoBase(number, baseTo, true);
-            }
-            // throw Converter.notImplementedException;
         }
 
-        if (baseTo == Converter.BINARY) {
-            if (Converter.isPowerOfM(baseFrom, 2)) {
-                return Converter.powerTwoBase2binary(number, baseFrom, true);
-            }
-
-            // throw Converter.notImplementedException;
+        if (baseTo == Converter.BINARY && Converter.isPowerOfM(baseFrom, 2)) {
+            return Converter.powerTwoBase2binary(number, baseFrom, true);
         }
-
-        // throw Converter.notImplementedException;
 
         System.out.printf("No fast method found. Using conversion base%d -> Decimal, Decimal -> base%d\n\n", baseFrom, baseTo);
         return Converter.decimal2base(
@@ -136,10 +125,6 @@ public class Converter {
                 }
                 System.out.println("\n");
             }
-            
-
-            // Add the final Message
-            System.out.println(" Done\n\n");
         }
 
         return solution;
@@ -174,6 +159,7 @@ public class Converter {
             System.out.print(String.join(" + ", simply));
             System.out.print(" = ");
             System.out.println(solution);
+            System.out.println("\n");
         }
 
         return String.valueOf(solution);
@@ -185,7 +171,7 @@ public class Converter {
      * @param baseTo - Desired base.
      * @param log - If log wanted.
      * @return Number representation in the given base.
-     * @throws Exception
+     * @throws Exception - If help method failed.
      */
     private static String binary2powerTwoBase(String number, int baseTo, boolean log) throws Exception {
         String solution = "";
@@ -213,13 +199,20 @@ public class Converter {
                 System.out.println(piece + " -> " + symbol);
             }
 
-            solution = solution + symbol;
+            solution = symbol + solution;
         }
 
         return solution;
     }
     
-    
+    /**
+     * Converter from any base power of 2 to binary.
+     * @param number - Desired number.
+     * @param baseFrom - Initial base of the number
+     * @param log - If we want to see log
+     * @return The number representation in binary
+     * @throws Exception If any argument failed
+     */
     private static String powerTwoBase2binary(String number, int baseFrom, boolean log) throws Exception {
         String solution = "";
         int groupSize = (int) (Math.log(baseFrom) / Math.log(2));
@@ -269,6 +262,12 @@ public class Converter {
         return (int) (Math.log10(n) + 1) + extra;
     }
 
+    /**
+     * Converter number-symbol (ei: 5 -> 5; 14 -> F)
+     * @param number - Value of the desired symbol
+     * @return The symbol representing the given value
+     * @throws Exception If the argument is not valid
+     */
     private static String symbolEquivalent(int number) throws Exception {
         if (number < 0) {
             throw new Exception("The number can not be less than 0");
@@ -279,6 +278,12 @@ public class Converter {
         return String.valueOf((char) (65 + number - 10));
     }
 
+    /**
+     * Returns the value associated to the given symbol (ei: 5 -> 5; F -> 15)
+     * @param number - A single character string with the desired symbol.
+     * @return The value associated to the symbol.
+     * @throws Exception - If the argument is not valid.
+     */
     private static int numberEquivalent(String number) throws Exception {
         if (number.length() > 1) { // If more than one character given
             throw new Exception("The input must be a single number");
@@ -293,11 +298,9 @@ public class Converter {
             return code - 48;
         }
         
-        // int n = Integer.parseInt(number);
-        System.out.println(code);
+        int n = Integer.parseInt(number);
 
-        // return n;
-        return 0;
+        return n;
     }
 
     /**
@@ -315,20 +318,20 @@ public class Converter {
     }
     public static void main(String[] args) {
 
-        // String numero = "01000100001";
+        String numero = "01000100001";
 
-        // int from = Converter.BINARY;
-        // int to = Converter.HEXADECIMAL;
+        int from = Converter.BINARY;
+        int to = Converter.HEXADECIMAL;
 
         // String numero = "23AF6";
 
         // int from = Converter.HEXADECIMAL;
         // int to = Converter.BINARY;
 
-        String numero = "21";
+        // String numero = "21";
 
-        int from = 3;
-        int to = 2;
+        // int from = 3;
+        // int to = 2;
 
         try {
             String output = converter(numero, from, to);    
