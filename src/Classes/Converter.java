@@ -19,7 +19,9 @@ public class Converter {
      * @throws Exception
      */
     public static String converter(String number, int baseFrom, int baseTo, boolean log) throws Exception {
-        System.out.printf("\nConverter:\n- Converting %s from base %d to base %d:\n\n", number, baseFrom, baseTo);
+        if (log) {
+        	System.out.printf("\nConverter:\n- Converting %s from base %d to base %d:\n\n", number, baseFrom, baseTo);
+        }
         
         if (baseFrom == baseTo) { // If same base.
         	if (log) {
