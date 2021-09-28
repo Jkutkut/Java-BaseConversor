@@ -323,16 +323,6 @@ public class Converter {
         int from = Converter.BINARY;
         int to = Converter.HEXADECIMAL;
 
-        // String numero = "23AF6";
-
-        // int from = Converter.HEXADECIMAL;
-        // int to = Converter.BINARY;
-
-        // String numero = "21";
-
-        // int from = 3;
-        // int to = 2;
-
         try {
             String output = converter(numero, from, to);    
             System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, from, output, to);
