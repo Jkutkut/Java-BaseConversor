@@ -10,7 +10,7 @@ class mainCode {
         int to = Converter.HEXADECIMAL;
 
         try {
-            String output = Converter.converter(numero, from, to);    
+            String output = Converter.converter(numero, from, to, true);    
             System.out.printf("The number '%s' in base %d is '%s' in base %d.\n\n", numero, from, output, to);
         }
         catch (Exception e) {
