@@ -38,18 +38,28 @@ public class Converter {
             if (Converter.isPowerOfM(baseTo, 2)) {
                 return Converter.binary2powerTwoBase(number, baseTo, true);
             }
-            throw Converter.notImplementedException;
+            // throw Converter.notImplementedException;
         }
 
         if (baseTo == Converter.BINARY) {
             if (Converter.isPowerOfM(baseFrom, 2)) {
-                return Converter.powerTwoBase2binary(number, baseFrom, false);
+                return Converter.powerTwoBase2binary(number, baseFrom, true);
             }
 
-            throw Converter.notImplementedException;
+            // throw Converter.notImplementedException;
         }
 
-        throw Converter.notImplementedException;
+        // throw Converter.notImplementedException;
+
+        System.out.printf("No fast method found. Using conversion base%d -> Decimal, Decimal -> base%d\n\n", baseFrom, baseTo);
+        return Converter.decimal2base(
+            Integer.parseInt(Converter.base2decimal(
+                number,
+                baseFrom,
+                true)),
+            baseTo,
+            true
+        );
     }
 
     /**
@@ -169,7 +179,14 @@ public class Converter {
         return String.valueOf(solution);
     }
 
-
+    /**
+     * Converter from binary to any base power of 2 (4, 8, 16, 32...)
+     * @param number - Number as a string in binary.
+     * @param baseTo - Desired base.
+     * @param log - If log wanted.
+     * @return Number representation in the given base.
+     * @throws Exception
+     */
     private static String binary2powerTwoBase(String number, int baseTo, boolean log) throws Exception {
         String solution = "";
         int groupSize = (int) (Math.log(baseTo) / Math.log(2));
@@ -202,6 +219,7 @@ public class Converter {
         return solution;
     }
     
+    
     private static String powerTwoBase2binary(String number, int baseFrom, boolean log) throws Exception {
         String solution = "";
         int groupSize = (int) (Math.log(baseFrom) / Math.log(2));
@@ -223,11 +241,15 @@ public class Converter {
                 symbols = "0" + symbols;
             }
 
-            System.out.println(c + " -> " + symbols);
-
+            if (log) {
+                System.out.println(c + " -> " + symbols);
+            }
+            solution += symbols;
         }
         return solution;
     }
+    
+    
     // Help methods
 
     /**
@@ -298,10 +320,15 @@ public class Converter {
         // int from = Converter.BINARY;
         // int to = Converter.HEXADECIMAL;
 
-        String numero = "23AF6";
+        // String numero = "23AF6";
 
-        int from = Converter.HEXADECIMAL;
-        int to = Converter.BINARY;
+        // int from = Converter.HEXADECIMAL;
+        // int to = Converter.BINARY;
+
+        String numero = "21";
+
+        int from = 3;
+        int to = 2;
 
         try {
             String output = converter(numero, from, to);    
