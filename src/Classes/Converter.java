@@ -54,7 +54,7 @@ public class Converter {
             Integer.parseInt(Converter.base2decimal(
                 number,
                 baseFrom,
-                true)),
+                false)),
             baseTo,
             log
         );
@@ -327,10 +327,10 @@ public class Converter {
     }
     public static void main(String[] args) {
 
-        String numero = "01000100001";
+        String numero = "35";
 
-        int from = Converter.BINARY;
-        int to = Converter.HEXADECIMAL;
+        int from = Converter.DECIMAL;
+        int to = Converter.BINARY;
 
         try {
             String output = converter(numero, from, to, true);    
