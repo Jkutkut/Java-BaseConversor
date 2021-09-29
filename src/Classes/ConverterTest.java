@@ -157,6 +157,12 @@ class ConverterTest {
 						tests[i][1]
 				);
 			}
+			for (; i < tests.length; i++) {
+				assertEquals(
+						Classes.Converter.converter(tests[i][1], baseTo, baseFrom, false),
+						tests[i][0]
+				);
+			}
 		}
 		catch (Exception e){
 			fail("Not able to execute the test" + i);
