@@ -112,6 +112,8 @@ class ConverterTest {
 	void testBinario2Hexadecimal() throws Exception {
 		String[][] tests = {
 		};
+		
+		this.executeTest(tests, Converter.BINARY, Converter.HEXADECIMAL);
 	}
 	
 	@Test
@@ -122,6 +124,8 @@ class ConverterTest {
 				{"3572", "11010101110010"},
 				{"3567", "10010101100111"}
 		};
+		
+		this.executeTest(tests, Converter.HEXADECIMAL, Converter.BINARY);
 	}
 	
 	
@@ -136,6 +140,8 @@ class ConverterTest {
 				{"101011101101001", "51273"},
 				{"0101011101101001", "53551"}
 		};
+		
+		this.executeTest(tests, Converter.BINARY, Converter.OCTAL);
 	}
 	
 	@Test
@@ -145,6 +151,8 @@ class ConverterTest {
 				{"3572", "11101111010"},
 				{"3567", "11101110111"}
 		};
+		
+		this.executeTest(tests, Converter.OCTAL, Converter.BINARY);
 	}
 	
 	//	Help functions
